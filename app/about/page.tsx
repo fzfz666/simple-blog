@@ -1,11 +1,11 @@
 import Link from "next/link"
-import { ArrowLeft } from "lucide-react"
+import { ArrowLeft, Github, Twitter, Mail } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 
 export default function About() {
   return (
-    <div className="max-w-xl mx-auto px-4 py-6">
-      <header className="flex justify-between items-center mb-6">
+    <div className="max-w-2xl mx-auto px-4 py-6">
+      <header className="flex justify-between items-center mb-8">
         <Link
           href="/"
           className="inline-flex items-center text-xs text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors duration-200"
@@ -17,16 +17,45 @@ export default function About() {
       </header>
 
       <main>
-        <h1 className="text-xl font-normal mb-4">关于</h1>
+        <div className="mb-8">
+          <h1 className="text-2xl font-semibold mb-2">关于我</h1>
+          <p className="text-zinc-600 dark:text-zinc-400">O Captain! My Captain!</p>
+        </div>
+
         <div className="prose prose-zinc dark:prose-invert prose-sm max-w-none text-zinc-800 dark:text-zinc-200">
-          <p>「极简思考」是一个专注于设计、简约和思考的博客。</p>
-          <p>我们相信少即是多的理念，并通过这个平台分享关于设计、生活和技术的极简主义思考。</p>
-          <p>如果您有任何问题或建议，请随时联系我们。</p>
+          <div className="mb-8">
+            <h2 className="text-lg font-medium mb-4">个人简介</h2>
+            <p>你好，我是 Jimmy，一名热爱技术和分享的开发者。</p>
+            <p>喜欢探索新技术，关注开发体验和工程化，同时也热衷于写作和分享。</p>
+          </div>
+
+          <div className="mb-8">
+            <h2 className="text-lg font-medium mb-4">关于本站</h2>
+            <p>这个博客使用 Next.js构建，主要记录我在技术学习和工作中的心得体会。</p>
+            <p>同时也会分享一些关于生活、阅读的想法。</p>
+          </div>
+
+          <div className="mb-8">
+            <h2 className="text-lg font-medium mb-4">联系方式</h2>
+            <div className="flex space-x-4">
+              <a
+                href="https://github.com/Lily-404"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
+              >
+                <Github className="h-5 w-5 mr-2" />
+                GitHub
+              </a>
+        
+    
+            </div>
+          </div>
         </div>
       </main>
 
       <footer className="mt-12 pt-4 border-t border-zinc-100 dark:border-zinc-800 text-zinc-400 dark:text-zinc-500 text-xs flex justify-between">
-        <p>© 2025</p>
+        <p>© 2024 Jimmy</p>
         <nav className="flex space-x-4">
           <Link href="/about" className="hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors">
             关于

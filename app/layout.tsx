@@ -10,7 +10,7 @@ const notoSansSC = Noto_Sans_SC({
 })
 
 export const metadata: Metadata = {
-  title: "极简思考 | 一个简约的博客",
+  title: "Jimmy的博客 | 一个简约的博客",
   description: "关于设计与简约的思考集",
     generator: 'v0.dev'
 }

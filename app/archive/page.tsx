@@ -46,7 +46,7 @@ export default function Archive() {
           ))
         ) : (
           <p className="text-zinc-500 dark:text-zinc-400 text-sm">
-            暂无文章。添加你的第一篇文章到 content/posts 目录。
+            暂无文章
           </p>
         )}
       </main>
