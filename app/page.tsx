@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button"
 import { formatDate } from "@/app/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 import { LayoutGrid, List } from "lucide-react" // 添加图标
+import { Footer } from "@/components/footer"
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -38,11 +39,21 @@ export default function Home() {
   }, [currentPage]);
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-6">
-      <header className="mb-8 flex justify-between items-center">
-        <div>
-          <h1 className="text-2xl font-medium tracking-tight hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors">
-            Jimmy的博客
+    <div className="max-w-2xl mx-auto px-4 py-4">
+      <header className="mb-6 flex justify-between items-center">
+        <div className="flex items-center gap-3">
+          <img
+            src="/cat.jpg"  
+            alt="Jimmy's avatar"
+            className="w-10 h-10 rounded-full object-cover"
+          />
+          <h1 
+            className="text-xl font-medium tracking-tight hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors cursor-pointer"
+            onClick={() => {
+              navigator.clipboard.writeText(window.location.href);
+            }}
+          >
+            Jimmy's Blog
           </h1>
         </div>
         <div className="flex items-center gap-2">
@@ -121,17 +132,7 @@ export default function Home() {
         )}
       </main>
 
-      <footer className="mt-12 pt-4 text-zinc-400 dark:text-zinc-500 text-xs flex justify-between items-center">
-        <p>© {new Date().getFullYear()}</p>
-        <nav className="flex space-x-4">
-          <Link href="/about" className="hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors">
-            关于
-          </Link>
-          <Link href="/archive" className="hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors">
-            归档
-          </Link>
-        </nav>
-      </footer>
+      <Footer />
     </div>
   )
 }

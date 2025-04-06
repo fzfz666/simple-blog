@@ -3,13 +3,14 @@ import { ArrowLeft } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { getPostsByYear } from "@/app/lib/posts"
 import { formatDate } from "@/app/lib/utils"
+import { Footer } from "@/components/footer"
 
 export default function Archive() {
   const postsByYear = getPostsByYear()
   const years = Object.keys(postsByYear).sort((a, b) => Number.parseInt(b) - Number.parseInt(a))
 
   return (
-    <div className="max-w-xl mx-auto px-4 py-6">
+    <div className="max-w-2xl mx-auto px-4 py-6">
       <header className="flex justify-between items-center mb-6">
         <Link
           href="/"
@@ -51,17 +52,7 @@ export default function Archive() {
         )}
       </main>
 
-      <footer className="mt-12 pt-4 border-t border-zinc-100 dark:border-zinc-800 text-zinc-400 dark:text-zinc-500 text-xs flex justify-between">
-        <p>© {new Date().getFullYear()}</p>
-        <nav className="flex space-x-4">
-          <Link href="/about" className="hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors">
-            关于
-          </Link>
-          <Link href="/archive" className="hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors">
-            归档
-          </Link>
-        </nav>
-      </footer>
+      <Footer />
     </div>
   )
 }
