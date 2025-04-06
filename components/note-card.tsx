@@ -4,8 +4,8 @@ import type { Note } from "@/types/note"
 
 export function NoteCard({ note }: { note: Note }) {
   return (
-    <div className="p-6 rounded-lg border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900">
-      <div className="flex items-center gap-3 mb-4">
+    <div className="p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
+      <div className="flex items-center gap-3 mb-1">
         <img
           src="/cat.jpg"
           alt="Jimmy's avatar"

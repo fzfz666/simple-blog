@@ -40,7 +40,7 @@ export default async function NotesPage() {
       </header>
 
       <main>
-        <div className="space-y-6">
+        <div className="space-y-3">
           {notes.length > 0 ? (
             notes.map((note) => (
               <NoteCard key={note.id} note={note} />
