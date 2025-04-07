@@ -8,30 +8,21 @@ import { getPaginatedPostsAction } from "@/app/actions/posts"
 import { Button } from "@/components/ui/button"
 import { formatDate } from "@/app/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
-import { LayoutGrid, List } from "lucide-react" // 添加图标
+import { List } from "lucide-react"
 import { Footer } from "@/components/footer"
+import { PaginationButtons } from "@/components/pagination-buttons"
+import { HeaderNav } from "@/components/header-nav"
 
 export default function Home() {
   const [currentPage, setCurrentPage] = useState(1);
   const [postsData, setPostsData] = useState<PostsData>({ posts: [], total: 0, totalPages: 0 });
   const [loading, setLoading] = useState(true);
-  const [layout, setLayout] = useState<'list' | 'grid'>(() => {
-    // 从 localStorage 读取布局设置，如果没有则默认为 list
-    if (typeof window !== 'undefined') {
-      return (localStorage.getItem('blogLayout') as 'list' | 'grid') || 'list';
-    }
-    return 'list';
-  });
-
-  // 监听布局变化并保存到 localStorage
-  useEffect(() => {
-    localStorage.setItem('blogLayout', layout);
-  }, [layout]);
+  const layout = 'list';
 
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true);
-      const data = await getPaginatedPostsAction(currentPage, 5);
+      const data = await getPaginatedPostsAction(currentPage, 10); // 增加每页显示的文章数量从5篇到10篇
       setPostsData(data as PostsData);
       setLoading(false);
     };
@@ -56,24 +47,17 @@ export default function Home() {
             Jimmy's Blog
           </h1>
         </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={() => setLayout(layout === 'list' ? 'grid' : 'list')}
-            className="text-zinc-500 hover:text-zinc-900 dark:hover:text-zinc-100"
-          >
-            {layout === 'list' ? <LayoutGrid size={20} /> : <List size={20} />}
-          </Button>
+        <div className="flex items-center gap-4">
+          <HeaderNav />
           <ThemeToggle />
         </div>
       </header>
 
       <main>
-        <div className={`${layout === 'grid' ? 'grid grid-cols-2 gap-4' : 'space-y-6'}`}>
+        <div className="space-y-6">
           {loading ? (
             // 加载状态显示骨架屏
-            Array.from({ length: 5 }).map((_, index) => (
+            Array.from({ length: 10 }).map((_, index) => (
               <article key={index} className="border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0">
                 <div className="space-y-2">
                   <Skeleton className="h-5 w-2/3" />
@@ -85,15 +69,12 @@ export default function Home() {
             postsData.posts.map((post) => (
               <article
                 key={post.id}
-                className={`${
-                  layout === 'list'
-                    ? 'border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0'
-                    : 'border rounded-lg p-4 hover:shadow-sm transition-shadow'
-                }`}
+                className="border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0"
               >
                 <Link href={`/posts/${post.id}`} className="group block">
-                  <h2 className="text-base font-normal group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors duration-200">
+                  <h2 className="text-base font-normal group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors duration-200 relative inline-block">
                     {post.title}
+                    <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-zinc-700 dark:bg-zinc-300 group-hover:w-full transition-all duration-500"></span>
                   </h2>
                   <time className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 block">
                     {formatDate(post.date)}
@@ -110,24 +91,13 @@ export default function Home() {
 
         {/* 分页控制 */}
         {postsData.totalPages > 1 && (
-          <div className="mt-8 flex justify-center gap-2">
-            <Button
-              variant="outline"
-              onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
-              disabled={currentPage === 1}
-            >
-              上一页
-            </Button>
-            <span className="flex items-center px-4 text-sm text-zinc-500">
-              {currentPage} / {postsData.totalPages}
-            </span>
-            <Button
-              variant="outline"
-              onClick={() => setCurrentPage(p => Math.min(postsData.totalPages, p + 1))}
-              disabled={currentPage === postsData.totalPages}
-            >
-              下一页
-            </Button>
+          <div className="mt-8">
+            <PaginationButtons 
+              currentPage={currentPage} 
+              totalPages={postsData.totalPages} 
+              onPageChange={setCurrentPage} 
+              className="animate-in fade-in duration-300"
+            />
           </div>
         )}
       </main>

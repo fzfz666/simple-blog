@@ -4,6 +4,7 @@ import { ThemeToggle } from "@/components/theme-toggle"
 import { getPostsByYear } from "@/app/lib/posts"
 import { formatDate } from "@/app/lib/utils"
 import { Footer } from "@/components/footer"
+import { HeaderNav } from "@/components/header-nav"
 
 export default function Archive() {
   const postsByYear = getPostsByYear()
@@ -19,7 +20,10 @@ export default function Archive() {
           <ArrowLeft className="mr-1 h-3 w-3" />
           返回
         </Link>
-        <ThemeToggle />
+        <div className="flex items-center gap-4">
+          <HeaderNav />
+          <ThemeToggle />
+        </div>
       </header>
 
       <main>
@@ -32,11 +36,11 @@ export default function Archive() {
               <ul className="space-y-3">
                 {postsByYear[year].map((post) => (
                   <li key={post.id}>
-                    <Link href={`/posts/${post.id}`} className="group flex justify-between items-baseline">
-                      <span className="text-sm group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors duration-200">
+                    <Link href={`/posts/${post.id}`} className="group flex justify-between items-baseline gap-4">
+                      <span className="text-sm group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors duration-200 truncate max-w-[75%]">
                         {post.title}
                       </span>
-                      <time className="text-xs text-zinc-400 dark:text-zinc-500">
+                      <time className="text-xs text-zinc-400 dark:text-zinc-500 shrink-0 min-w-[4rem] text-right">
                         {formatDate(post.date).split("年")[1]}
                       </time>
                     </Link>

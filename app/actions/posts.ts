@@ -4,7 +4,7 @@ import fs from "fs"
 import path from "path"
 import matter from "gray-matter"
 
-export async function getPaginatedPostsAction(page: number = 1, pageSize: number = 5) {
+export async function getPaginatedPostsAction(page: number = 1, pageSize: number = 10) {
   const postsDirectory = path.join(process.cwd(), "content/posts")
   const fileNames = fs.readdirSync(postsDirectory)
 

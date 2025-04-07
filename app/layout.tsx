@@ -12,7 +12,10 @@ const notoSansSC = Noto_Sans_SC({
 export const metadata: Metadata = {
   title: "Jimmy's Blog",
   description: "关于设计与简约的思考集",
-    generator: 'v0.dev'
+  generator: 'v0.dev',
+  icons: {
+    icon: '/logo5.png'
+  }
 }
 
 export default function RootLayout({

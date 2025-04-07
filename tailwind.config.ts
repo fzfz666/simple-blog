@@ -103,6 +103,89 @@ const config: Config = {
                 color: "rgb(39 39 42)",
               },
             },
+            blockquote: {
+              fontStyle: "italic",
+              borderLeftWidth: "4px",
+              borderLeftColor: "rgb(212 212 216)",
+              paddingLeft: "1rem",
+            },
+            code: {
+              backgroundColor: "rgb(244 244 245)",
+              borderRadius: "0.25rem",
+              padding: "0.125rem 0.25rem",
+              fontWeight: "500",
+            },
+            "code::before": {
+              content: "none",
+            },
+            "code::after": {
+              content: "none",
+            },
+            pre: {
+              backgroundColor: "rgb(244 244 245)",
+              borderRadius: "0.375rem",
+              padding: "1rem",
+              overflow: "auto",
+            },
+            h1: {
+              fontWeight: "600",
+              marginTop: "2rem",
+              marginBottom: "1.5rem",
+            },
+            h2: {
+              fontWeight: "600",
+              marginTop: "1.75rem",
+              marginBottom: "1rem",
+              paddingBottom: "0.5rem",
+              borderBottomWidth: "1px",
+              borderBottomColor: "rgb(228 228 231)",
+            },
+            h3: {
+              fontWeight: "600",
+              marginTop: "1.5rem",
+              marginBottom: "0.75rem",
+            },
+            img: {
+              borderRadius: "0.375rem",
+              boxShadow: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)",
+            },
+            ul: {
+              listStyleType: "disc",
+              paddingLeft: "1.5rem",
+            },
+            ol: {
+              listStyleType: "decimal",
+              paddingLeft: "1.5rem",
+            },
+            "li::marker": {
+              color: "rgb(113 113 122)",
+            },
+            hr: {
+              borderColor: "rgb(228 228 231)",
+              marginTop: "2rem",
+              marginBottom: "2rem",
+            },
+            table: {
+              width: "100%",
+              borderCollapse: "collapse",
+              marginTop: "1.5rem",
+              marginBottom: "1.5rem",
+            },
+            thead: {
+              backgroundColor: "rgb(244 244 245)",
+            },
+            th: {
+              padding: "0.75rem 1rem",
+              textAlign: "left",
+              fontWeight: "600",
+              borderBottomWidth: "1px",
+              borderBottomColor: "rgb(228 228 231)",
+            },
+            td: {
+              padding: "0.75rem 1rem",
+              borderBottomWidth: "1px",
+              borderBottomColor: "rgb(228 228 231)",
+            },
           },
         },
       },

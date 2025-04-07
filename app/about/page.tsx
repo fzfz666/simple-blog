@@ -2,6 +2,7 @@ import Link from "next/link"
 import { ArrowLeft, Github, Twitter, Mail } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Footer } from "@/components/footer"
+import { HeaderNav } from "@/components/header-nav"
 
 export default function About() {
   return (
@@ -14,12 +15,15 @@ export default function About() {
           <ArrowLeft className="mr-1 h-3 w-3" />
           返回
         </Link>
-        <ThemeToggle />
+        <div className="flex items-center gap-4">
+          <HeaderNav />
+          <ThemeToggle />
+        </div>
       </header>
 
       <main>
         <div className="mb-8">
-          <h1 className="text-2xl font-semibold mb-2">关于我</h1>
+          <h1 className="text-2xl font-semibold mb-2">关于</h1>
           <p className="text-zinc-600 dark:text-zinc-400">O Captain! My Captain!</p>
         </div>
 
@@ -48,7 +52,16 @@ export default function About() {
                 <Github className="h-5 w-5 mr-2" />
                 GitHub
               </a>
-        
+              <a
+                href="https://okjk.co/ITgDUG"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
+              >
+                <span className="h-5 w-5 mr-2 flex items-center justify-center font-medium text-lg">J</span>
+                即刻
+              </a>
+              
     
             </div>
           </div>

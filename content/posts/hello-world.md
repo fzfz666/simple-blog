@@ -1,8 +1,7 @@
 ---
 title: "你好，世界"
-date: "2025-04-01"
+date: "2025-02-02"
 ---
-
 这是我的第一篇博客文章。
 
 ## 关于这个博客
@@ -25,3 +24,4 @@ function hello() {
   console.log("Hello, world!");
 }
 
+```
