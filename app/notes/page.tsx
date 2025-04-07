@@ -11,7 +11,7 @@ export default async function NotesPage() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
-      <header className="flex flex-col gap-3 mb-6">
+      <header className="flex flex-col gap-4 mb-6">
         <div className="flex items-center justify-between">
           <Link
             href="/"
@@ -23,17 +23,15 @@ export default async function NotesPage() {
           <ThemeToggle />
         </div>
 
-        <div className="flex flex-col items-center gap-3 text-center">
+        <div className="flex flex-col items-center gap-2 text-center">
           <img
             src="/cat.jpg"
             alt="Jimmy's avatar"
-            className="w-12 h-12 rounded-full object-cover border border-zinc-200 dark:border-zinc-800"
+            className="w-12 h-12 rounded-full object-cover ring-1 ring-zinc-200 dark:ring-zinc-800"
           />
           <div>
             <h1 className="text-base font-medium text-zinc-900 dark:text-zinc-100">Jimmy</h1>
-            <p className="text-sm text-zinc-500 dark:text-zinc-400">
-              记录一些想法和感受
-            </p>
+            <p className="text-xs text-zinc-500 dark:text-zinc-400">记录想法和感受</p>
           </div>
         </div>
       </header>

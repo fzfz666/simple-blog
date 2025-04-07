@@ -1,11 +1,26 @@
+"use client"
+
 import Link from "next/link"
-import { ArrowLeft, Github, Twitter, Mail } from "lucide-react"
+import { ArrowLeft, Github, Twitter, Mail, Copy, Check } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Footer } from "@/components/footer"
 import { HeaderNav } from "@/components/header-nav"
 import Image from "next/image"
+import { useState } from "react"
 
 export default function About() {
+  const [copied, setCopied] = useState(false)
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText("sxy1308075897@gmail.com")
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    } catch (err) {
+      console.error("Failed to copy email:", err)
+    }
+  }
+
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
       <header className="flex justify-between items-center mb-8">
@@ -58,6 +73,18 @@ export default function About() {
                 <span className="h-5 w-5 mr-2 flex items-center justify-center font-medium">J</span>
                 即刻
               </a>
+              <button
+                onClick={copyEmail}
+                className="flex items-center px-4 py-2 rounded-lg bg-zinc-100 dark:bg-zinc-800 hover:bg-zinc-200 dark:hover:bg-zinc-700 transition-colors group relative"
+              >
+                <Mail className="h-5 w-5 mr-2" />
+                <span className="text-sm">Email</span>
+                {copied && (
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-zinc-800 text-white text-xs rounded-md whitespace-nowrap">
+                    已复制到剪贴板
+                  </div>
+                )}
+              </button>
             </div>
           </div>
         </section>
