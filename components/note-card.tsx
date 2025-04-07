@@ -5,7 +5,7 @@ import type { Note } from "@/types/note"
 export function NoteCard({ note }: { note: Note }) {
   return (
     <div className="p-5 rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-white dark:bg-zinc-900 shadow-sm">
-      <div className="flex items-center gap-3 mb-1">
+      <div className="flex items-center gap-3 mb-2">
         <img
           src="/cat.jpg"
           alt="Jimmy's avatar"
@@ -18,8 +18,9 @@ export function NoteCard({ note }: { note: Note }) {
           </time>
         </div>
       </div>
-      
-      <div className="prose prose-zinc dark:prose-invert prose-sm text-zinc-900 dark:text-zinc-100">
+
+      {/* 内容主体 */}
+      <div className="text-zinc-900 dark:text-zinc-100 text-[15px] leading-relaxed whitespace-pre-wrap break-words">
         {note.content}
       </div>
     </div>
