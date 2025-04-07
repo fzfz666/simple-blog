@@ -1,30 +1,13 @@
-"use client"
-
-import { useState, useEffect } from "react"
 import Link from "next/link"
-import { ArrowLeft, Home } from "lucide-react"
+import { ArrowLeft } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { getPaginatedNotesAction } from "@/app/actions/notes"
 import { NoteCard } from "@/components/note-card"
 import { Footer } from "@/components/footer"
 import { PaginationButtons } from "@/components/pagination-buttons"
-import { BackToTop } from "@/components/back-to-top"
-import type { NotesData } from "@/types/note"
 
-export default function NotesPage() {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [notesData, setNotesData] = useState<NotesData>({ notes: [], total: 0, totalPages: 0 })
-  const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchNotes = async () => {
-      setLoading(true)
-      const data = await getPaginatedNotesAction(currentPage, 20)
-      setNotesData(data)
-      setLoading(false)
-    }
-    fetchNotes()
-  }, [currentPage])
+export default async function NotesPage() {
+  const { notes, total, totalPages } = await getPaginatedNotesAction(1, 20)
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
@@ -35,7 +18,7 @@ export default function NotesPage() {
             className="inline-flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300 transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
-            <span>返回首页</span>
+            <span>返回</span>
           </Link>
           <ThemeToggle />
         </div>
@@ -57,8 +40,8 @@ export default function NotesPage() {
 
       <main>
         <div className="space-y-3">
-          {notesData.notes.length > 0 ? (
-            notesData.notes.map((note) => (
+          {notes.length > 0 ? (
+            notes.map((note) => (
               <NoteCard key={note.id} note={note} />
             ))
           ) : (
@@ -68,19 +51,18 @@ export default function NotesPage() {
           )}
         </div>
 
-        {notesData.totalPages > 1 && (
+        {totalPages > 1 && (
           <div className="mt-8">
             <PaginationButtons
-              currentPage={currentPage}
-              totalPages={notesData.totalPages}
-              onPageChange={setCurrentPage}
+              currentPage={1}
+              totalPages={totalPages}
+              onPageChange={() => {}}
             />
           </div>
         )}
       </main>
 
       <Footer />
-      <BackToTop />
     </div>
   )
 }
