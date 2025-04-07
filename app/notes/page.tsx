@@ -15,10 +15,10 @@ export default async function NotesPage() {
         <div className="flex items-center justify-between">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 text-sm text-zinc-600 hover:text-zinc-900 dark:text-zinc-400 dark:hover:text-zinc-300 transition-colors"
+            className="inline-flex items-center text-xs text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors duration-200"
           >
-            <ArrowLeft className="h-4 w-4" />
-            <span>返回</span>
+            <ArrowLeft className="mr-1 h-3 w-3" />
+            返回
           </Link>
           <ThemeToggle />
         </div>
