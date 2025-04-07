@@ -3,7 +3,7 @@ import { Home, Archive, Info, BookOpen } from "lucide-react"
 
 export function HeaderNav() {
   return (
-    <nav className="flex items-center space-x-4 text-sm">
+    <nav className="flex items-center space-x-2 text-sm">
       <Link href="/" className="flex items-center hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors group">
         <Home className="h-4 w-4 mr-2 text-zinc-400 group-hover:text-zinc-800 dark:group-hover:text-zinc-300" />
         <span className="hidden md:inline">首页</span>
