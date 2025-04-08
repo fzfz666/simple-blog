@@ -26,6 +26,10 @@ export async function generateStaticParams() {
 }
 
 export default async function Post({ params }: { params: { id: string } }) {
+  if (!params?.id) {
+    notFound()
+  }
+
   try {
     const post = await getPostById(params.id)
 
