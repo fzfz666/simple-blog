@@ -15,27 +15,20 @@ import { HeaderNav } from "@/components/header-nav"
 import { Layout } from "@/components/layout"
 
 export default function Home() {
-  const [currentPage, setCurrentPage] = useState(1)
-  const [postsData, setPostsData] = useState<PostsData>({ posts: [], total: 0, totalPages: 0 })
-  const [loading, setLoading] = useState(true)
-  const layout = 'list'
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsData, setPostsData] = useState<PostsData>({ posts: [], total: 0, totalPages: 0 });
+  const [loading, setLoading] = useState(true);
+  const layout = 'list';
 
   useEffect(() => {
     const fetchPosts = async () => {
-      setLoading(true)
-      try {
-        const data = await getPaginatedPostsAction(currentPage, 7)
-        setPostsData(data as PostsData)
-      } catch (error) {
-        console.error('Error fetching posts:', error)
-      } finally {
-        setTimeout(() => {
-          setLoading(false)
-        }, 300)
-      }
-    }
-    fetchPosts()
-  }, [currentPage])
+      setLoading(true);
+      const data = await getPaginatedPostsAction(currentPage, 10); // 增加每页显示的文章数量从5篇到10篇
+      setPostsData(data as PostsData);
+      setLoading(false);
+    };
+    fetchPosts();
+  }, [currentPage]);
 
   return (
     <Layout>
@@ -46,12 +39,11 @@ export default function Home() {
               src="/cat.jpg"  
               alt="Jimmy's avatar"
               className="w-10 h-10 rounded-full object-cover"
-              loading="eager"
             />
             <h1 
               className="text-xl font-medium tracking-tight hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors cursor-pointer"
               onClick={() => {
-                navigator.clipboard.writeText(window.location.href)
+                navigator.clipboard.writeText(window.location.href);
               }}
             >
               Jimmy's Blog
@@ -66,7 +58,8 @@ export default function Home() {
         <main>
           <div className="space-y-6">
             {loading ? (
-              Array.from({ length: 7 }).map((_, index) => (
+              // 加载状态显示骨架屏
+              Array.from({ length: 10 }).map((_, index) => (
                 <article key={index} className="border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0">
                   <div className="space-y-2">
                     <Skeleton className="h-5 w-2/3" />

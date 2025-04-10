@@ -17,10 +17,16 @@ export async function getPaginatedNotesAction(page: number = 1, pageSize: number
   const allNotes = fileNames
     .filter((fileName) => fileName.endsWith(".md"))
     .map((fileName) => {
-      const id = fileName.replace(/\.md$/, "")
       const fullPath = path.join(notesDirectory, fileName)
       const fileContents = fs.readFileSync(fullPath, "utf8")
       const matterResult = matter(fileContents)
+      
+      // 获取文件修改时间
+      const stats = fs.statSync(fullPath)
+      const mtime = stats.mtimeMs
+      
+      // 使用文件名和修改时间的组合作为唯一 ID
+      const id = `${fileName.replace(/\.md$/, "")}-${mtime}`
 
       return {
         id,
