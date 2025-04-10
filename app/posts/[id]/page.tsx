@@ -26,12 +26,14 @@ export async function generateStaticParams() {
 }
 
 export default async function Post({ params }: { params: { id: string } }) {
-  if (!params?.id) {
+  const { id } = await params
+  
+  if (!id) {
     notFound()
   }
 
   try {
-    const post = await getPostById(params.id)
+    const post = await getPostById(id)
 
     if (!post) {
       notFound()
@@ -56,7 +58,7 @@ export default async function Post({ params }: { params: { id: string } }) {
 
         <article>
           <header className="mb-6">
-            <h1 className="text-xl font-normal mb-2">{post.title}</h1>
+            <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
             <time className="block text-xs text-zinc-400 dark:text-zinc-500">{formatDate(post.date)}</time>
           </header>
 

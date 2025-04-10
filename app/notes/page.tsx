@@ -5,6 +5,7 @@ import { getPaginatedNotesAction } from "@/app/actions/notes"
 import { NoteCard } from "@/components/note-card"
 import { Footer } from "@/components/footer"
 import { PaginationButtons } from "@/components/pagination-buttons"
+import { HeaderNav } from "@/components/header-nav"
 
 export default async function NotesPage() {
   const { notes, total, totalPages } = await getPaginatedNotesAction(1, 20)
@@ -12,16 +13,19 @@ export default async function NotesPage() {
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
       <header className="flex flex-col gap-4 mb-6">
-        <div className="flex items-center justify-between">
-          <Link
-            href="/"
-            className="inline-flex items-center text-xs text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors duration-200"
-          >
-            <ArrowLeft className="mr-1 h-3 w-3" />
-            返回
-          </Link>
+      <header className="flex justify-between items-center mb-6">
+        <Link
+          href="/"
+          className="inline-flex items-center text-xs text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors duration-200"
+        >
+          <ArrowLeft className="mr-1 h-3 w-3" />
+          返回
+        </Link>
+        <div className="flex items-center gap-4">
+          <HeaderNav />
           <ThemeToggle />
         </div>
+      </header>
 
         <div className="flex flex-col items-center gap-2 text-center">
           <img
