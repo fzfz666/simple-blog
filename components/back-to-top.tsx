@@ -1,44 +1,40 @@
 "use client"
 
-import { useState, useEffect } from "react"
 import { ArrowUp } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { useEffect, useState } from "react"
 
 export function BackToTop() {
-  const [show, setShow] = useState(false)
+  const [showButton, setShowButton] = useState(false)
 
   useEffect(() => {
     const handleScroll = () => {
-      setShow(window.scrollY > 300)
+      if (window.scrollY > 100) {
+        setShowButton(true)
+      } else {
+        setShowButton(false)
+      }
     }
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
-      behavior: "smooth"
+      behavior: 'smooth'
     })
   }
 
-  if (!show) return null
+  if (!showButton) return null
 
   return (
-    <Button
+    <button
       onClick={scrollToTop}
-      className={cn(
-        "fixed bottom-6 right-10 z-50",
-        "h-10 w-10 p-0 rounded-full",
-        "bg-zinc-900 text-white hover:bg-zinc-800",
-        "dark:bg-zinc-50 dark:text-zinc-900 dark:hover:bg-zinc-200",
-        "shadow-lg transition-all duration-300",
-        "flex items-center justify-center"
-      )}
+      className="fixed bottom-4 right-4 p-2 rounded-full bg-zinc-900 dark:bg-zinc-100 text-zinc-100 dark:text-zinc-900 hover:bg-zinc-800 dark:hover:bg-zinc-200 transition-colors duration-200"
+      aria-label="返回顶部"
     >
-      <ArrowUp className="h-4 w-4" />
-    </Button>
+      <ArrowUp className="h-5 w-5" />
+    </button>
   )
 } 

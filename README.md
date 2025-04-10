@@ -26,6 +26,9 @@
 │   ├── lib/           # 工具函数和数据处理
 │   ├── posts/         # 博客文章
 │   └── page.tsx       # 首页
+├── content/
+│   ├── notes/         # 随笔
+│   └── posts/         # 文章
 ├── components/        # React 组件
 ├── public/            # 静态资源
 └── styles/            # 全局样式

@@ -6,6 +6,7 @@ import { NoteCard } from "@/components/note-card"
 import { Footer } from "@/components/footer"
 import { PaginationButtons } from "@/components/pagination-buttons"
 import { HeaderNav } from "@/components/header-nav"
+import { BackToTop } from "@/components/back-to-top"
 
 export default async function NotesPage() {
   const { notes, total, totalPages } = await getPaginatedNotesAction(1, 20)
@@ -65,6 +66,7 @@ export default async function NotesPage() {
       </main>
 
       <Footer />
+      <BackToTop />
     </div>
   )
 }
