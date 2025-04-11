@@ -26,6 +26,7 @@ export async function initCache() {
     const tagCounts: Record<string, number> = {}
     const postsByYear: Record<string, any[]> = {}
 
+    // 使用 Promise.all 并行处理文件读取
     await Promise.all(
       fileNames
         .filter((fileName) => fileName.endsWith(".md"))
@@ -135,4 +136,13 @@ export async function getPostsByYear(tag?: string | null) {
   })
 
   return filteredPostsByYear
+}
+
+// 预加载数据
+export async function preloadData() {
+  try {
+    await initCache()
+  } catch (error) {
+    console.error('Error preloading data:', error)
+  }
 } 
