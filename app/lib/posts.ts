@@ -42,6 +42,7 @@ export function getAllPosts() {
           title: matterResult.data.title || "无标题",
           date: matterResult.data.date || new Date().toISOString(),
           excerpt: matterResult.data.excerpt || "",
+          tags: matterResult.data.tags || [],
           content: matterResult.content,
         }
       })
@@ -99,6 +100,7 @@ export async function getPostById(id: string) {
       title: matterResult.data.title || "无标题",
       date: matterResult.data.date || new Date().toISOString(),
       contentHtml,
+      tags: matterResult.data.tags || [],
       ...matterResult.data,
     }
   } catch (error) {
@@ -134,5 +136,22 @@ export function getPaginatedPosts(page: number = 1, pageSize: number = 5) {
     currentPage: page,
     totalPages: Math.ceil(posts.length / pageSize)
   };
+}
+
+export function getAllTags() {
+  const posts = getAllPosts()
+  const tagCounts: Record<string, number> = {}
+
+  posts.forEach((post) => {
+    if (post.tags) {
+      post.tags.forEach((tag) => {
+        tagCounts[tag] = (tagCounts[tag] || 0) + 1
+      })
+    }
+  })
+
+  return Object.entries(tagCounts)
+    .map(([tag, count]) => ({ tag, count }))
+    .sort((a, b) => b.count - a.count)
 }
 

@@ -6,6 +6,7 @@ import { formatDate } from "@/app/lib/utils"
 import { notFound } from "next/navigation"
 import { Footer } from "@/components/footer"
 import { Layout } from "@/components/layout"
+import { Tags } from "@/components/tag"
 // 添加类型定义
 type PostId = {
   id: string;
@@ -62,6 +63,9 @@ export default async function Post({ params }: { params: { id: string } }) {
             <header className="mb-6">
               <h1 className="text-3xl font-bold mb-2">{post.title}</h1>
               <time className="block text-xs text-zinc-400 dark:text-zinc-500">{formatDate(post.date)}</time>
+              {post.tags && post.tags.length > 0 && (
+                <Tags tags={post.tags} className="mt-2" interactive={false} />
+              )}
             </header>
 
             <div

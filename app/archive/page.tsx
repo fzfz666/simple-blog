@@ -1,15 +1,35 @@
+"use client"
+
+import { useState, useEffect } from "react"
 import Link from "next/link"
 import { ArrowLeft } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { getPostsByYear } from "@/app/lib/posts"
 import { formatDate } from "@/app/lib/utils"
 import { Footer } from "@/components/footer"
 import { HeaderNav } from "@/components/header-nav"
 import { Layout } from "@/components/layout"
+import { getAllTags, getPostsByYear } from "@/app/actions/posts"
 
 export default function ArchivePage() {
-  const postsByYear = getPostsByYear()
-  const years = Object.keys(postsByYear).sort((a, b) => Number.parseInt(b) - Number.parseInt(a))
+  const [selectedTag, setSelectedTag] = useState<string | null>(null)
+  const [allTags, setAllTags] = useState<Array<{ tag: string; count: number }>>([])
+  const [postsByYear, setPostsByYear] = useState<Record<string, any[]>>({})
+
+  // 获取初始数据
+  useEffect(() => {
+    const fetchData = async () => {
+      const [tags, posts] = await Promise.all([
+        getAllTags(),
+        getPostsByYear(selectedTag)
+      ])
+      setAllTags(tags)
+      setPostsByYear(posts)
+    }
+    fetchData()
+  }, [selectedTag])
+
+  const years = Object.keys(postsByYear)
+    .sort((a, b) => Number.parseInt(b) - Number.parseInt(a))
 
   return (
     <Layout>
@@ -30,6 +50,37 @@ export default function ArchivePage() {
 
         <main>
           <h1 className="text-xl font-normal mb-6">归档</h1>
+
+          {/* 标签云区域 */}
+          {allTags.length > 0 && (
+            <div className="mb-8">
+              <div className="flex flex-wrap gap-2">
+                <button
+                  onClick={() => setSelectedTag(null)}
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${
+                    selectedTag === null
+                      ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200'
+                      : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
+                  }`}
+                >
+                  全部
+                </button>
+                {allTags.map(({ tag }) => (
+                  <button
+                    key={tag}
+                    onClick={() => setSelectedTag(tag)}
+                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${
+                      selectedTag === tag
+                        ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200'
+                        : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
+                    }`}
+                  >
+                    {tag}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {years.length > 0 ? (
             years.map((year) => (

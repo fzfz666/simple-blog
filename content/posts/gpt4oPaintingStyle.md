@@ -1,6 +1,7 @@
 ---
 title: "动画风格参考合集（用于AI绘图）"
 date: "2025-4-10"
+tags: ["AI","ChatGPT","prompt"]
 ---
 ## 1. 吉卜力风格 (Ghibli Style)
 
