@@ -20,18 +20,32 @@ export function HomeContent() {
   const [loading, setLoading] = useState(true);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [allTags, setAllTags] = useState<Array<{ tag: string; count: number }>>([]);
+  const [isTransitioning, setIsTransitioning] = useState(false);
   const layout = 'list';
 
+  // 只在组件挂载时获取标签列表
+  useEffect(() => {
+    const fetchTags = async () => {
+      try {
+        const tags = await getAllTagsAction();
+        setAllTags(tags);
+      } catch (error) {
+        console.error('Error fetching tags:', error);
+      }
+    };
+    fetchTags();
+  }, []);
+
+  // 获取文章列表
   useEffect(() => {
     const fetchData = async () => {
+      if (isTransitioning) return;
+      
       setLoading(true);
       const startTime = Date.now();
       
       try {
-        const [posts, tags] = await Promise.all([
-          getPaginatedPostsAction(currentPage, 10, selectedTag),
-          getAllTagsAction()
-        ]);
+        const posts = await getPaginatedPostsAction(currentPage, 10, selectedTag);
         
         // 计算已经过去的时间
         const elapsedTime = Date.now() - startTime;
@@ -41,7 +55,6 @@ export function HomeContent() {
         }
         
         setPostsData(posts as PostsData);
-        setAllTags(tags);
       } catch (error) {
         console.error('Error fetching data:', error);
       } finally {
@@ -49,7 +62,18 @@ export function HomeContent() {
       }
     };
     fetchData();
-  }, [currentPage, selectedTag]);
+  }, [currentPage, selectedTag, isTransitioning]);
+
+  // 处理标签点击
+  const handleTagClick = async (tag: string | null) => {
+    setIsTransitioning(true);
+    setSelectedTag(tag);
+    setCurrentPage(1); // 重置页码
+    
+    // 添加平滑过渡效果
+    await new Promise(resolve => setTimeout(resolve, 300));
+    setIsTransitioning(false);
+  };
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
@@ -76,22 +100,42 @@ export function HomeContent() {
       </header>
 
       <main>
-        {loading ? (
-          <>
-            {/* 标签云骨架 */}
-            <div className="mb-8">
-              <div className="flex flex-wrap gap-2">
-                <Skeleton className="h-6 w-12 rounded-full" />
-                <Skeleton className="h-6 w-16 rounded-full" />
-                <Skeleton className="h-6 w-20 rounded-full" />
-                <Skeleton className="h-6 w-14 rounded-full" />
-                <Skeleton className="h-6 w-18 rounded-full" />
-                <Skeleton className="h-6 w-10 rounded-full" />
-              </div>
+        {/* 标签云区域 */}
+        {allTags.length > 0 && (
+          <div className="mb-8">
+            <div className="flex flex-wrap gap-2">
+              <button
+                onClick={() => handleTagClick(null)}
+                className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${
+                  selectedTag === null
+                    ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200'
+                    : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
+                }`}
+              >
+                全部
+              </button>
+              {allTags.map(({ tag }) => (
+                <button
+                  key={tag}
+                  onClick={() => handleTagClick(tag)}
+                  className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${
+                    selectedTag === tag
+                      ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200'
+                      : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
+                  }`}
+                >
+                  {tag}
+                </button>
+              ))}
             </div>
+          </div>
+        )}
 
-            {/* 文章列表骨架 */}
-            <div className="space-y-6">
+        {/* 文章列表 */}
+        <div className={`space-y-6 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
+          {loading ? (
+            <>
+              {/* 文章列表骨架 */}
               {Array.from({ length: 10 }).map((_, index) => (
                 <article key={index} className="border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0">
                   <div className="space-y-2">
@@ -100,42 +144,9 @@ export function HomeContent() {
                   </div>
                 </article>
               ))}
-            </div>
-          </>
-        ) : (
-          <>
-            {/* 标签云区域 */}
-            {allTags.length > 0 && (
-              <div className="mb-8">
-                <div className="flex flex-wrap gap-2">
-                  <button
-                    onClick={() => setSelectedTag(null)}
-                    className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${
-                      selectedTag === null
-                        ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200'
-                        : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
-                    }`}
-                  >
-                    全部
-                  </button>
-                  {allTags.map(({ tag }) => (
-                    <button
-                      key={tag}
-                      onClick={() => setSelectedTag(tag)}
-                      className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${
-                        selectedTag === tag
-                          ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200'
-                          : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
-                      }`}
-                    >
-                      {tag}
-                    </button>
-                  ))}
-                </div>
-              </div>
-            )}
-
-            <div className="space-y-6">
+            </>
+          ) : (
+            <>
               {postsData.posts.length > 0 ? (
                 postsData.posts.map((post) => (
                   <article
@@ -158,9 +169,9 @@ export function HomeContent() {
                   暂无文章。
                 </p>
               )}
-            </div>
-          </>
-        )}
+            </>
+          )}
+        </div>
 
         {/* 分页控制 */}
         {!loading && postsData.totalPages > 1 && (

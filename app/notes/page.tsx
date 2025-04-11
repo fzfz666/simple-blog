@@ -15,13 +15,11 @@ export default async function NotesPage() {
       <div className="max-w-2xl mx-auto px-4 py-6">
         <header className="flex flex-col gap-4 mb-6">
           <div className="flex justify-between items-center">
-            <Link
-              href="/"
-              className="inline-flex items-center text-xs text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors duration-200"
-            >
-              <ArrowLeft className="mr-1 h-3 w-3" />
-              返回
-            </Link>
+            <div className="flex items-center gap-3">
+              <Link href="/" className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-colors">
+                <ArrowLeft className="w-5 h-5" />
+              </Link>
+            </div>
             <div className="flex items-center gap-4">
               <HeaderNav />
               <ThemeToggle />
