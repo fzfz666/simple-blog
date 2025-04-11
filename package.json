@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "postbuild": "ts-node scripts/preload.ts"
+    "postbuild": "tsx scripts/preload.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
@@ -75,6 +75,6 @@
     "postcss": "^8",
     "tailwindcss": "^3.4.17",
     "typescript": "^5",
-    "ts-node": "^10.9.2"
+    "tsx": "^4.7.1"
   }
 }
