@@ -66,7 +66,7 @@ export function AboutContent() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
-      <Header showBackButton={true} />
+      <Header showBackButton={true} title="关于" />
 
       <main>
         <div className="flex flex-col md:flex-row items-center gap-8 mb-12">

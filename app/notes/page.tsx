@@ -12,8 +12,8 @@ export default async function NotesPage() {
 
   return (
     <Layout>
-      <div className="max-w-2xl mx-auto px-4 py-4">
-        <Header showBackButton={true} />
+      <div className="max-w-2xl mx-auto px-4 py-6">
+        <Header showBackButton={true} title="随笔" />
 
         <div className="flex flex-col items-center gap-2 text-center mb-6">
           <div className="relative group">
