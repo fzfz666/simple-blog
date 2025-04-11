@@ -52,10 +52,6 @@ function usePosts(initialPosts: PostsData, selectedTag: string | null) {
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
-    if (currentPage === 1 && selectedTag === null) {
-      return; // 使用初始数据
-    }
-
     const fetchData = async () => {
       setLoading(true);
       setError(null);
@@ -70,6 +66,8 @@ function usePosts(initialPosts: PostsData, selectedTag: string | null) {
         setLoading(false);
       }
     };
+
+    // 当 selectedTag 为 null 时，也重新获取数据
     fetchData();
   }, [currentPage, selectedTag]);
 
