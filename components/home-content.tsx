@@ -13,6 +13,8 @@ import { Footer } from "@/components/footer"
 import { PaginationButtons } from "@/components/pagination-buttons"
 import { HeaderNav } from "@/components/header-nav"
 import { Tags } from "@/components/tag"
+import { Tag } from "@/components/tag"
+import { Header } from "@/components/header"
 
 export function HomeContent() {
   const [currentPage, setCurrentPage] = useState(1);
@@ -77,55 +79,27 @@ export function HomeContent() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
-      <header className="mb-6 flex justify-between items-center">
-        <div className="flex items-center gap-3">
-          <img
-            src="/cat.jpg"  
-            alt="Jimmy's avatar"
-            className="w-10 h-10 rounded-full object-cover"
-          />
-          <h1 
-            className="text-xl font-medium tracking-tight hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors cursor-pointer"
-            onClick={() => {
-              navigator.clipboard.writeText(window.location.href);
-            }}
-          >
-            Jimmy's Blog
-          </h1>
-        </div>
-        <div className="flex items-center gap-4">
-          <HeaderNav />
-          <ThemeToggle />
-        </div>
-      </header>
+      <Header isHome={true} />
 
       <main>
         {/* 标签云区域 */}
         {allTags.length > 0 && (
           <div className="mb-8">
             <div className="flex flex-wrap gap-2">
-              <button
+              <Tag
+                tag="全部"
                 onClick={() => handleTagClick(null)}
-                className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${
-                  selectedTag === null
-                    ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200'
-                    : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
-                }`}
-              >
-                全部
-              </button>
+                interactive={true}
+                className={selectedTag === null ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
+              />
               {allTags.map(({ tag }) => (
-                <button
+                <Tag
                   key={tag}
+                  tag={tag}
                   onClick={() => handleTagClick(tag)}
-                  className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${
-                    selectedTag === tag
-                      ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200'
-                      : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
-                  }`}
-                >
-                  {tag}
-                </button>
+                  interactive={true}
+                  className={selectedTag === tag ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
+                />
               ))}
             </div>
           </div>

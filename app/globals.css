@@ -96,7 +96,7 @@
 }
 
 .prose blockquote {
-  @apply border-l-4 border-zinc-300 dark:border-zinc-700 pl-4 py-1 my-6 text-zinc-700 dark:text-zinc-300 italic;
+  @apply border-l-4 border-zinc-300 dark:border-zinc-700 pl-4 py-0 my-2 text-zinc-700 dark:text-zinc-300 italic;
 }
 
 .prose ul {
@@ -116,7 +116,7 @@
 }
 
 .prose pre {
-  @apply bg-zinc-100 dark:bg-zinc-800 p-4 rounded-md overflow-x-auto my-6 text-sm;
+  @apply bg-zinc-100 dark:bg-zinc-800 p-4 rounded-lg overflow-x-auto my-6 text-sm border border-zinc-200 dark:border-zinc-700;
 }
 
 .prose pre code {

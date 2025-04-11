@@ -10,7 +10,8 @@ import { formatDate, delay } from "@/app/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
 import { HeaderNav } from "@/components/header-nav"
 import { Footer } from "@/components/footer"
-import { Tags } from "@/components/tag"
+import { Tag } from "@/components/tag"
+import { Header } from "@/components/header"
 
 export function ArchiveContent() {
   const [postsByYear, setPostsByYear] = useState<PostsByYear>({})
@@ -72,45 +73,27 @@ export function ArchiveContent() {
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
-      <header className="mb-6 flex justify-between items-center">
-        <div className="flex items-center gap-4">
-          <Link href="/" className="p-2 hover:bg-zinc-100 dark:hover:bg-zinc-800 rounded-full transition-colors">
-            <ArrowLeft className="w-5 h-5" />
-          </Link>
-        </div>
-        <div className="flex items-center gap-4">
-          <HeaderNav />
-          <ThemeToggle />
-        </div>
-      </header>
+      <Header showBackButton={true} />
 
       <main>
         {/* 标签云区域 */}
         {allTags.length > 0 && (
           <div className="mb-8">
             <div className="flex flex-wrap gap-2">
-              <button
+              <Tag
+                tag="全部"
                 onClick={() => handleTagClick(null)}
-                className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${
-                  selectedTag === null
-                    ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200'
-                    : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
-                }`}
-              >
-                全部
-              </button>
+                interactive={true}
+                className={selectedTag === null ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
+              />
               {allTags.map(({ tag }) => (
-                <button
+                <Tag
                   key={tag}
+                  tag={tag}
                   onClick={() => handleTagClick(tag)}
-                  className={`inline-flex items-center px-3 py-1 rounded-full text-xs font-medium transition-colors duration-200 ${
-                    selectedTag === tag
-                      ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200'
-                      : 'bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 hover:bg-zinc-200 dark:hover:bg-zinc-700'
-                  }`}
-                >
-                  {tag}
-                </button>
+                  interactive={true}
+                  className={selectedTag === tag ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
+                />
               ))}
             </div>
           </div>
@@ -121,7 +104,7 @@ export function ArchiveContent() {
           {loading ? (
             <>
               {/* 标签云骨架 */}
-              <div className="mb-8">
+              {/* <div className="mb-8">
                 <div className="flex flex-wrap gap-2">
                   <Skeleton className="h-6 w-12 rounded-full" />
                   <Skeleton className="h-6 w-16 rounded-full" />
@@ -130,7 +113,7 @@ export function ArchiveContent() {
                   <Skeleton className="h-6 w-18 rounded-full" />
                   <Skeleton className="h-6 w-10 rounded-full" />
                 </div>
-              </div>
+              </div> */}
 
               {/* 文章列表骨架 */}
               {Array.from({ length: 3 }).map((_, yearIndex) => (

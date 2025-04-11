@@ -7,6 +7,7 @@ import { notFound } from "next/navigation"
 import { Footer } from "@/components/footer"
 import { Layout } from "@/components/layout"
 import { Tags } from "@/components/tag"
+import { Header } from "@/components/header"
 // 添加类型定义
 type PostId = {
   id: string;
@@ -44,20 +45,7 @@ export default async function Post({ params }: { params: { id: string } }) {
     return (
       <Layout>
         <div className="max-w-2xl mx-auto px-4 py-6">
-          <header className="flex justify-between items-center mb-6">
-            <div className="flex space-x-4">
-              <Link
-                href="/"
-                className="inline-flex items-center text-xs text-zinc-500 dark:text-zinc-400 hover:text-zinc-800 dark:hover:text-zinc-300 transition-colors duration-200"
-              >
-                <ArrowLeft className="mr-1 h-3 w-3" />
-                返回
-              </Link>
-            </div>
-            <div className="flex items-center gap-4">
-              <ThemeToggle />
-            </div>
-          </header>
+          <Header showBackButton={true} />
 
           <article>
             <header className="mb-6">

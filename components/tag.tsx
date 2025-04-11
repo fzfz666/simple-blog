@@ -14,14 +14,23 @@ export function Tag({ tag, onClick, className, interactive = false }: TagProps) 
     "text-zinc-600 dark:text-zinc-300",
     "hover:bg-zinc-200 dark:hover:bg-zinc-700",
     "transition-colors duration-200",
+    "border border-zinc-200/50 dark:border-zinc-700/50",
+    "hover:border-zinc-400/70 dark:hover:border-zinc-500/70",
     className
+  )
+
+  const selectedClasses = cn(
+    "bg-zinc-200 dark:bg-zinc-700",
+    "text-zinc-800 dark:text-zinc-200",
+    "border border-zinc-300/70 dark:border-zinc-600/70",
+    "hover:border-zinc-400/70 dark:hover:border-zinc-500/70"
   )
 
   if (interactive) {
     return (
       <button
         onClick={onClick}
-        className={baseClasses}
+        className={cn(baseClasses, className?.includes('bg-zinc-200') && selectedClasses)}
       >
         {tag}
       </button>
