@@ -11,3 +11,7 @@ export interface PostsData {
   total: number;
   totalPages: number;
 }
+
+export interface PostsByYear {
+  [year: string]: Post[];
+}

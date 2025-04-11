@@ -1,13 +1,11 @@
 import type React from "react"
 import type { Metadata } from "next"
-import { Noto_Sans_SC } from "next/font/google"
+import { Inter } from "next/font/google"
 import { ThemeProvider } from "@/components/theme-provider"
+import { preloadData } from "@/app/lib/cache"
 import "./globals.css"
 
-const notoSansSC = Noto_Sans_SC({
-  subsets: ["latin"],
-  weight: ["300", "400", "500"],
-})
+const inter = Inter({ subsets: ["latin"] })
 
 export const metadata: Metadata = {
   title: "Jimmy's Blog",
@@ -18,17 +16,25 @@ export const metadata: Metadata = {
   }
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode
 }>) {
+  // 预加载数据
+  await preloadData()
+
   return (
     <html lang="zh" suppressHydrationWarning>
       <body
-        className={`${notoSansSC.className} bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 antialiased`}
+        className={`${inter.className} bg-white dark:bg-zinc-900 text-zinc-900 dark:text-zinc-100 antialiased`}
       >
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
           {children}
         </ThemeProvider>
       </body>

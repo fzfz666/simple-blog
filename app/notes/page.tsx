@@ -7,6 +7,15 @@ import { getPaginatedNotesAction } from "@/app/actions/notes"
 import { Footer } from "@/components/footer"
 import { Header } from "@/components/header"
 
+// 设置为完全静态生成
+export const dynamic = 'force-static'
+export const revalidate = false // 禁用重新验证，因为数据是静态的
+
+// 预生成首页数据
+export async function generateStaticParams() {
+  return [{}] // 只需要生成一个首页
+}
+
 export default async function NotesPage() {
   const { notes, total } = await getPaginatedNotesAction(1, 15)
 
@@ -16,12 +25,11 @@ export default async function NotesPage() {
         <Header showBackButton={true} title="随笔" />
 
         <div className="flex flex-col items-center gap-2 text-center mb-6">
-          <div className="relative group">
-            <div className="absolute -inset-1 rounded-full bg-gradient-to-r from-zinc-200/50 to-zinc-300/50 dark:from-zinc-700/50 dark:to-zinc-600/50 blur-sm group-hover:blur transition-all duration-300"></div>
+          <div>
             <img
               src="/cat.jpg"
               alt="Jimmy's avatar"
-              className="relative w-12 h-12 rounded-full object-cover ring-1 ring-zinc-200/50 dark:ring-zinc-800/50 transition-transform duration-300 group-hover:scale-105"
+              className="w-12 h-12 rounded-full object-cover"
             />
           </div>
           <div className="space-y-0.5">

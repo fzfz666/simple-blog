@@ -36,6 +36,8 @@ export function NotesPagination({ initialNotes, initialTotal }: {
   }, [hasMore, loading])
 
   const loadMoreNotes = async () => {
+    if (loading) return
+    
     setLoading(true)
     try {
       const nextPage = page + 1
@@ -59,14 +61,16 @@ export function NotesPagination({ initialNotes, initialTotal }: {
         ))}
 
         {loading && (
-          Array.from({ length: 3 }).map((_, index) => (
-            <div key={index} className="border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0">
-              <div className="space-y-2">
-                <div className="h-5 w-2/3 bg-zinc-100 dark:bg-zinc-800 rounded animate-pulse" />
-                <div className="h-3 w-1/4 bg-zinc-100 dark:bg-zinc-800 rounded animate-pulse" />
+          <div className="space-y-3">
+            {Array.from({ length: 3 }).map((_, index) => (
+              <div key={index} className="border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0">
+                <div className="space-y-2">
+                  <div className="h-5 w-2/3 bg-zinc-100 dark:bg-zinc-800 rounded animate-pulse" />
+                  <div className="h-3 w-1/4 bg-zinc-100 dark:bg-zinc-800 rounded animate-pulse" />
+                </div>
               </div>
-            </div>
-          ))
+            ))}
+          </div>
         )}
 
         {!loading && notes.length === 0 && (

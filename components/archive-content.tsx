@@ -39,18 +39,9 @@ export function ArchiveContent() {
       if (isTransitioning) return
       
       setLoading(true)
-      const startTime = Date.now()
       
       try {
         const posts = await getPostsByYearAction(selectedTag)
-        
-        // 计算已经过去的时间
-        const elapsedTime = Date.now() - startTime
-        // 如果加载时间少于100ms，则等待剩余时间
-        if (elapsedTime < 100) {
-          await delay(100 - elapsedTime)
-        }
-        
         setPostsByYear(posts)
       } catch (error) {
         console.error('Error fetching data:', error)
@@ -141,10 +132,10 @@ export function ArchiveContent() {
                           href={`/posts/${post.id}`}
                           className="flex items-center justify-between group"
                         >
-                          <span className="text-base font-normal group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors duration-200">
+                          <span className="text-base font-normal group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors duration-200 truncate mr-4">
                             {post.title}
                           </span>
-                          <time className="text-xs text-zinc-400 dark:text-zinc-500">
+                          <time className="text-xs text-zinc-400 dark:text-zinc-500 flex-shrink-0">
                             {formatDate(post.date)}
                           </time>
                         </Link>

@@ -41,41 +41,32 @@ export function HomeContent() {
   // 获取文章列表
   useEffect(() => {
     const fetchData = async () => {
-      if (isTransitioning) return;
+      if (isTransitioning) return
       
-      setLoading(true);
-      const startTime = Date.now();
+      setLoading(true)
       
       try {
-        const posts = await getPaginatedPostsAction(currentPage, 10, selectedTag);
-        
-        // 计算已经过去的时间
-        const elapsedTime = Date.now() - startTime;
-        // 如果加载时间少于100ms，则等待剩余时间
-        if (elapsedTime < 100) {
-          await delay(100 - elapsedTime);
-        }
-        
-        setPostsData(posts as PostsData);
+        const posts = await getPaginatedPostsAction(currentPage, 10, selectedTag)
+        setPostsData(posts as PostsData)
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error('Error fetching data:', error)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchData();
-  }, [currentPage, selectedTag, isTransitioning]);
+    }
+    fetchData()
+  }, [currentPage, selectedTag, isTransitioning])
 
   // 处理标签点击
   const handleTagClick = async (tag: string | null) => {
-    setIsTransitioning(true);
-    setSelectedTag(tag);
-    setCurrentPage(1); // 重置页码
+    setIsTransitioning(true)
+    setSelectedTag(tag)
+    setCurrentPage(1) // 重置页码
     
     // 添加平滑过渡效果
-    await new Promise(resolve => setTimeout(resolve, 300));
-    setIsTransitioning(false);
-  };
+    await new Promise(resolve => setTimeout(resolve, 300))
+    setIsTransitioning(false)
+  }
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">

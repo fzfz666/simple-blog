@@ -71,6 +71,7 @@ npm run build
 ---
 title: 文章标题
 date: YYYY-MM-DD
+tags: ["标签1","标签2","标签3"]
 ---
 ```
 

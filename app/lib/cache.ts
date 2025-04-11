@@ -14,7 +14,7 @@ interface CacheData {
 
 // 缓存实例
 let cache: CacheData | null = null
-const CACHE_DURATION = 5 * 60 * 1000 // 5分钟缓存
+const CACHE_DURATION = 24 * 60 * 60 * 1000 // 24小时缓存
 
 // 初始化缓存
 export async function initCache() {

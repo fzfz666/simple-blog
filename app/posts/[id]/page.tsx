@@ -9,28 +9,21 @@ import { Layout } from "@/components/layout"
 import { Tags } from "@/components/tag"
 import { Header } from "@/components/header"
 import { MarkdownContent } from "@/components/markdown-content"
-// 添加类型定义
-type PostId = {
-  id: string;
-  params?: {
-    id: string;
-  };
-}
 
+// 设置为完全静态生成
+export const dynamic = 'force-static'
+export const revalidate = false // 禁用重新验证，因为数据只在部署时更新
+
+// 生成所有可能的文章路径
 export async function generateStaticParams() {
-  try {
-    const posts = getAllPostIds() as PostId[]
-    return posts.map(post => ({
-      id: String(post.id || post.params?.id || '')
-    }))
-  } catch (error) {
-    console.error('Error generating static params:', error)
-    return []
-  }
+  const posts = await getAllPostIds()
+  return posts.map((post) => ({
+    id: post.id,
+  }))
 }
 
 export default async function Post({ params }: { params: { id: string } }) {
-  const { id } = await params
+  const { id } = params
   
   if (!id) {
     notFound()

@@ -1,4 +1,3 @@
-import { Suspense } from "react"
 import { HomeContent } from "@/components/home-content"
 
 // 预加载数据
@@ -10,14 +9,11 @@ export function generateStaticParams() {
   ]
 }
 
-// 设置重新验证时间
-export const revalidate = 60 // 60秒
+// 设置为完全静态生成
+export const dynamic = 'force-static'
+export const revalidate = false // 禁用重新验证，因为数据只在部署时更新
 
 export default function Home() {
-  return (
-    <Suspense>
-      <HomeContent />
-    </Suspense>
-  )
+  return <HomeContent />
 }
 
