@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import type { PostsData } from "@/types/post"
 import Link from "next/link"
 import { ThemeToggle } from "@/components/theme-toggle"
-import { getPaginatedPostsAction, getAllTags } from "@/app/actions/posts"
+import { getPaginatedPostsAction, getAllTagsAction } from "@/app/actions/posts"
 import { Button } from "@/components/ui/button"
 import { formatDate } from "@/app/lib/utils"
 import { Skeleton } from "@/components/ui/skeleton"
@@ -26,13 +26,18 @@ export default function Home() {
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
-      const [posts, tags] = await Promise.all([
-        getPaginatedPostsAction(currentPage, 10, selectedTag),
-        getAllTags()
-      ]);
-      setPostsData(posts as PostsData);
-      setAllTags(tags);
-      setLoading(false);
+      try {
+        const [posts, tags] = await Promise.all([
+          getPaginatedPostsAction(currentPage, 10, selectedTag),
+          getAllTagsAction()
+        ]);
+        setPostsData(posts as PostsData);
+        setAllTags(tags);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchData();
   }, [currentPage, selectedTag]);

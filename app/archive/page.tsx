@@ -8,7 +8,7 @@ import { formatDate } from "@/app/lib/utils"
 import { Footer } from "@/components/footer"
 import { HeaderNav } from "@/components/header-nav"
 import { Layout } from "@/components/layout"
-import { getAllTags, getPostsByYear } from "@/app/actions/posts"
+import { getAllTagsAction, getPostsByYearAction } from "@/app/actions/posts"
 import { Skeleton } from "@/components/ui/skeleton"
 import React from "react"
 
@@ -102,8 +102,8 @@ export default function ArchivePage() {
       setLoading(true)
       try {
         const [tags, posts] = await Promise.all([
-          getAllTags(),
-          getPostsByYear(selectedTag)
+          getAllTagsAction(),
+          getPostsByYearAction(selectedTag)
         ])
         if (mounted) {
           setAllTags(tags)
