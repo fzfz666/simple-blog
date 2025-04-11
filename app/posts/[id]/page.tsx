@@ -18,7 +18,7 @@ export const revalidate = false // 禁用重新验证，因为数据只在部署
 export async function generateStaticParams() {
   const posts = await getAllPostIds()
   return posts.map((post) => ({
-    id: post.id,
+    id: post.params.id,
   }))
 }
 
