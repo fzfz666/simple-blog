@@ -1,7 +1,12 @@
 import { HomeContent } from "@/components/home-content"
+import { getPaginatedPostsAction, getAllTagsAction } from "@/app/actions/posts"
+
+// 设置为完全静态生成
+export const dynamic = 'force-static'
+export const revalidate = false
 
 // 预加载数据
-export function generateStaticParams() {
+export async function generateStaticParams() {
   return [
     { page: "1" },
     { page: "2" },
@@ -9,11 +14,22 @@ export function generateStaticParams() {
   ]
 }
 
-// 设置为完全静态生成
-export const dynamic = 'force-static'
-export const revalidate = false // 禁用重新验证，因为数据只在部署时更新
+// 预加载初始数据
+async function getInitialData() {
+  try {
+    const [posts, tags] = await Promise.all([
+      getPaginatedPostsAction(1, 10, null),
+      getAllTagsAction()
+    ])
+    return { posts, tags }
+  } catch (error) {
+    console.error('Error fetching initial data:', error)
+    return { posts: { posts: [], total: 0, totalPages: 0 }, tags: [] }
+  }
+}
 
-export default function Home() {
-  return <HomeContent />
+export default async function Home() {
+  const initialData = await getInitialData()
+  return <HomeContent initialData={initialData} />
 }
 

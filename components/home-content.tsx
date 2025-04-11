@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback, useMemo } from "react"
 import type { PostsData } from "@/types/post"
 import Link from "next/link"
 import { ThemeToggle } from "@/components/theme-toggle"
@@ -16,57 +16,143 @@ import { Tags } from "@/components/tag"
 import { Tag } from "@/components/tag"
 import { Header } from "@/components/header"
 
-export function HomeContent() {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsData, setPostsData] = useState<PostsData>({ posts: [], total: 0, totalPages: 0 });
-  const [loading, setLoading] = useState(true);
-  const [selectedTag, setSelectedTag] = useState<string | null>(null);
-  const [allTags, setAllTags] = useState<Array<{ tag: string; count: number }>>([]);
-  const [isTransitioning, setIsTransitioning] = useState(false);
-  const layout = 'list';
+interface HomeContentProps {
+  initialData: {
+    posts: PostsData;
+    tags: Array<{ tag: string; count: number }>;
+  };
+}
 
-  // 只在组件挂载时获取标签列表
-  useEffect(() => {
-    const fetchTags = async () => {
-      try {
-        const tags = await getAllTagsAction();
-        setAllTags(tags);
-      } catch (error) {
-        console.error('Error fetching tags:', error);
-      }
-    };
-    fetchTags();
+// 自定义 hook 用于处理标签逻辑
+function useTags(initialTags: Array<{ tag: string; count: number }>) {
+  const [allTags, setAllTags] = useState(initialTags);
+  const [selectedTag, setSelectedTag] = useState<string | null>(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const handleTagClick = useCallback(async (tag: string | null) => {
+    setIsTransitioning(true);
+    setSelectedTag(tag);
+    await delay(300);
+    setIsTransitioning(false);
   }, []);
 
-  // 获取文章列表
+  return {
+    allTags,
+    selectedTag,
+    isTransitioning,
+    handleTagClick
+  };
+}
+
+// 自定义 hook 用于处理文章列表逻辑
+function usePosts(initialPosts: PostsData, selectedTag: string | null) {
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsData, setPostsData] = useState(initialPosts);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
   useEffect(() => {
+    if (currentPage === 1 && selectedTag === null) {
+      return; // 使用初始数据
+    }
+
     const fetchData = async () => {
-      if (isTransitioning) return
-      
-      setLoading(true)
+      setLoading(true);
+      setError(null);
       
       try {
-        const posts = await getPaginatedPostsAction(currentPage, 10, selectedTag)
-        setPostsData(posts as PostsData)
+        const posts = await getPaginatedPostsAction(currentPage, 10, selectedTag);
+        setPostsData(posts as PostsData);
       } catch (error) {
-        console.error('Error fetching data:', error)
+        console.error('Error fetching data:', error);
+        setError('加载文章失败，请稍后重试');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetchData()
-  }, [currentPage, selectedTag, isTransitioning])
+    };
+    fetchData();
+  }, [currentPage, selectedTag]);
 
-  // 处理标签点击
-  const handleTagClick = async (tag: string | null) => {
-    setIsTransitioning(true)
-    setSelectedTag(tag)
-    setCurrentPage(1) // 重置页码
-    
-    // 添加平滑过渡效果
-    await new Promise(resolve => setTimeout(resolve, 300))
-    setIsTransitioning(false)
-  }
+  const handlePageChange = useCallback((page: number) => {
+    setCurrentPage(page);
+  }, []);
+
+  return {
+    currentPage,
+    postsData,
+    loading,
+    error,
+    handlePageChange
+  };
+}
+
+export function HomeContent({ initialData }: HomeContentProps) {
+  const { allTags, selectedTag, isTransitioning, handleTagClick } = useTags(initialData.tags);
+  const { currentPage, postsData, loading, error, handlePageChange } = usePosts(initialData.posts, selectedTag);
+
+  // 使用 useMemo 优化标签渲染
+  const tagElements = useMemo(() => (
+    <div className="mb-8">
+      <div className="flex flex-wrap gap-2">
+        <Tag
+          tag="全部"
+          onClick={() => handleTagClick(null)}
+          interactive={true}
+          className={selectedTag === null ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
+        />
+        {allTags.map(({ tag }) => (
+          <Tag
+            key={tag}
+            tag={tag}
+            onClick={() => handleTagClick(tag)}
+            interactive={true}
+            className={selectedTag === tag ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
+          />
+        ))}
+      </div>
+    </div>
+  ), [allTags, selectedTag, handleTagClick]);
+
+  // 使用 useMemo 优化文章列表渲染
+  const postElements = useMemo(() => (
+    <div className={`space-y-6 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
+      {loading ? (
+        <>
+          {Array.from({ length: 10 }).map((_, index) => (
+            <article key={index} className="border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0">
+              <div className="space-y-2">
+                <Skeleton className="h-5 w-2/3" />
+                <Skeleton className="h-3 w-1/4" />
+              </div>
+            </article>
+          ))}
+        </>
+      ) : error ? (
+        <p className="text-red-500 dark:text-red-400 text-sm">{error}</p>
+      ) : postsData.posts.length > 0 ? (
+        postsData.posts.map((post) => (
+          <article
+            key={post.id}
+            className="border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0"
+          >
+            <Link href={`/posts/${post.id}`} className="group block">
+              <h2 className="text-base font-normal group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-all duration-300 relative inline-block">
+                {post.title}
+                <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-gradient-to-r from-zinc-200/0 via-zinc-400/50 to-zinc-200/0 dark:from-zinc-700/0 dark:via-zinc-500/50 dark:to-zinc-700/0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
+              </h2>
+              <time className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 block">
+                {formatDate(post.date)}
+              </time>
+            </Link>
+          </article>
+        ))
+      ) : (
+        <p className="text-zinc-500 dark:text-zinc-400 text-sm">
+          暂无文章。
+        </p>
+      )}
+    </div>
+  ), [loading, error, postsData.posts, isTransitioning]);
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
@@ -74,77 +160,18 @@ export function HomeContent() {
 
       <main>
         {/* 标签云区域 */}
-        {allTags.length > 0 && (
-          <div className="mb-8">
-            <div className="flex flex-wrap gap-2">
-              <Tag
-                tag="全部"
-                onClick={() => handleTagClick(null)}
-                interactive={true}
-                className={selectedTag === null ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
-              />
-              {allTags.map(({ tag }) => (
-                <Tag
-                  key={tag}
-                  tag={tag}
-                  onClick={() => handleTagClick(tag)}
-                  interactive={true}
-                  className={selectedTag === tag ? 'bg-zinc-200 dark:bg-zinc-700 text-zinc-800 dark:text-zinc-200' : ''}
-                />
-              ))}
-            </div>
-          </div>
-        )}
+        {allTags.length > 0 && tagElements}
 
         {/* 文章列表 */}
-        <div className={`space-y-6 transition-opacity duration-300 ${isTransitioning ? 'opacity-50' : 'opacity-100'}`}>
-          {loading ? (
-            <>
-              {/* 文章列表骨架 */}
-              {Array.from({ length: 10 }).map((_, index) => (
-                <article key={index} className="border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0">
-                  <div className="space-y-2">
-                    <Skeleton className="h-5 w-2/3" />
-                    <Skeleton className="h-3 w-1/4" />
-                  </div>
-                </article>
-              ))}
-            </>
-          ) : (
-            <>
-              {postsData.posts.length > 0 ? (
-                postsData.posts.map((post) => (
-                  <article
-                    key={post.id}
-                    className="border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0"
-                  >
-                    <Link href={`/posts/${post.id}`} className="group block">
-                      <h2 className="text-base font-normal group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-all duration-300 relative inline-block">
-                        {post.title}
-                        <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-gradient-to-r from-zinc-200/0 via-zinc-400/50 to-zinc-200/0 dark:from-zinc-700/0 dark:via-zinc-500/50 dark:to-zinc-700/0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
-                      </h2>
-                      <time className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 block">
-                        {formatDate(post.date)}
-                      </time>
-                    </Link>
-                  </article>
-                ))
-              ) : (
-                <p className="text-zinc-500 dark:text-zinc-400 text-sm">
-                  暂无文章。
-                </p>
-              )}
-            </>
-          )}
-        </div>
+        {postElements}
 
         {/* 分页控制 */}
-        {!loading && postsData.totalPages > 1 && (
+        {!loading && !error && postsData.totalPages > 1 && (
           <div className="mt-8">
             <PaginationButtons 
               currentPage={currentPage} 
               totalPages={postsData.totalPages} 
-              onPageChange={setCurrentPage} 
+              onPageChange={handlePageChange} 
               className="animate-in fade-in duration-300"
             />
           </div>
