@@ -128,9 +128,9 @@ export function HomeContent() {
                     className="border-b border-zinc-100 dark:border-zinc-800 pb-6 last:border-0 last:pb-0"
                   >
                     <Link href={`/posts/${post.id}`} className="group block">
-                      <h2 className="text-base font-normal group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-colors duration-200 relative inline-block">
+                      <h2 className="text-base font-normal group-hover:text-zinc-700 dark:group-hover:text-zinc-300 transition-all duration-300 relative inline-block">
                         {post.title}
-                        <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-zinc-700 dark:bg-zinc-300 group-hover:w-full transition-all duration-500"></span>
+                        <span className="absolute -bottom-1 left-0 w-full h-[1px] bg-gradient-to-r from-zinc-200/0 via-zinc-400/50 to-zinc-200/0 dark:from-zinc-700/0 dark:via-zinc-500/50 dark:to-zinc-700/0 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left"></span>
                       </h2>
                       <time className="text-xs text-zinc-400 dark:text-zinc-500 mt-1 block">
                         {formatDate(post.date)}
