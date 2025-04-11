@@ -8,6 +8,7 @@ import { Footer } from "@/components/footer"
 import { Layout } from "@/components/layout"
 import { Tags } from "@/components/tag"
 import { Header } from "@/components/header"
+import { MarkdownContent } from "@/components/markdown-content"
 // 添加类型定义
 type PostId = {
   id: string;
@@ -56,10 +57,7 @@ export default async function Post({ params }: { params: { id: string } }) {
               )}
             </header>
 
-            <div
-              className="prose prose-zinc dark:prose-invert prose-sm max-w-none dark:text-zinc-200"
-              dangerouslySetInnerHTML={{ __html: post.contentHtml }}
-            />
+            <MarkdownContent content={post.contentHtml} />
           </article>
 
           <Footer />
