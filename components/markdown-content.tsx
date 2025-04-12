@@ -28,10 +28,10 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
       copyButton.className = 'p-1.5 rounded-md bg-black hover:bg-zinc-800 text-white hover:text-white transition-all duration-200 shadow-sm hover:shadow-md dark:bg-white dark:text-black dark:hover:bg-zinc-100'
       copyButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>'
       
-      // 创建成功提示
-      const successMessage = document.createElement('span')
-      successMessage.className = 'hidden text-xs text-white bg-black px-2 py-1 rounded-md dark:bg-white dark:text-black'
-      successMessage.textContent = '已复制'
+      // 创建成功提示按钮
+      const successButton = document.createElement('button')
+      successButton.className = 'p-1.5 rounded-md bg-black hover:bg-zinc-800 text-white hover:text-white transition-all duration-200 shadow-sm hover:shadow-md dark:bg-white dark:text-black dark:hover:bg-zinc-100 hidden'
+      successButton.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>'
       
       // 添加点击事件
       copyButton.addEventListener('click', async () => {
@@ -41,12 +41,12 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
           
           // 立即更新UI状态
           copyButton.style.display = 'none'
-          successMessage.style.display = 'block'
+          successButton.style.display = 'block'
           
           // 2秒后恢复原始状态
           setTimeout(() => {
             copyButton.style.display = 'block'
-            successMessage.style.display = 'none'
+            successButton.style.display = 'none'
           }, 2000)
         } catch (err) {
           console.error('Failed to copy code:', err)
@@ -55,7 +55,7 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
       
       // 添加元素到容器
       buttonContainer.appendChild(copyButton)
-      buttonContainer.appendChild(successMessage)
+      buttonContainer.appendChild(successButton)
       
       // 将代码块包装在外层容器中
       pre.parentNode?.insertBefore(wrapper, pre)

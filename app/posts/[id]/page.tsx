@@ -23,7 +23,14 @@ export async function generateStaticParams() {
 }
 
 export default async function Post({ params }: { params: { id: string } }) {
-  const { id } = params
+  // 确保 params 是一个对象并且包含 id 属性
+  if (!params || typeof params !== 'object' || !('id' in params)) {
+    notFound()
+  }
+  
+  // 使用 Promise.resolve 来确保 params 被正确处理
+  const resolvedParams = await Promise.resolve(params)
+  const id = resolvedParams.id
   
   if (!id) {
     notFound()
