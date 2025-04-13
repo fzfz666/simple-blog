@@ -124,7 +124,7 @@
 }
 
 .prose img {
-  @apply rounded-md my-8 mx-auto shadow-md;
+  @apply rounded-2xl my-8 mx-auto shadow-md;
 }
 
 .prose hr {
