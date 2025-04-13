@@ -4,13 +4,12 @@ import type { Note } from "@/types/note"
 
 export function NoteCard({ note }: { note: Note }) {
   return (
-    <div className="group relative p-6 rounded-2xl 
-      bg-white/50 dark:bg-zinc-900/50 backdrop-blur-sm
-      border border-zinc-200/50 dark:border-zinc-800/50
-      hover:border-zinc-300/50 dark:hover:border-zinc-700/50
-      shadow-[0_1px_3px_0_rgb(0,0,0,0.05)] dark:shadow-[0_1px_3px_0_rgb(0,0,0,0.2)]
-      hover:shadow-[0_5px_15px_0_rgb(0,0,0,0.05)] dark:hover:shadow-[0_5px_15px_0_rgb(0,0,0,0.2)]
-      transition-all duration-300 ease-out">
+    <div className="group relative p-6 rounded-xl
+      bg-zinc-50/50 dark:bg-zinc-800/50
+      hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50 
+      border border-zinc-200/50 dark:border-zinc-700/50
+      hover:border-zinc-300/50 dark:hover:border-zinc-600/50
+      transition-colors">
       <div className="flex items-center gap-3 mb-3">
         <img
           src="/cat.jpg"
@@ -25,10 +24,9 @@ export function NoteCard({ note }: { note: Note }) {
         </div>
       </div>
 
-      {/* 内容主体 */}
-      <div className="text-zinc-700 dark:text-zinc-300 text-[15px] leading-relaxed 
+      <div className="text-zinc-600 dark:text-zinc-400 text-[15px] leading-relaxed 
         whitespace-pre-wrap break-words
-        group-hover:text-zinc-900 dark:group-hover:text-zinc-100
+        group-hover:text-zinc-800 dark:group-hover:text-zinc-300
         transition-colors duration-300">
         {note.content}
       </div>
