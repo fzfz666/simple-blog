@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import Link from "next/link"
-import { ArrowLeft, Github, Twitter, Mail, Copy } from "lucide-react"
+import { ArrowLeft, Github, Twitter, Mail, Copy, Rss, MessageCircle } from "lucide-react"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { HeaderNav } from "@/components/header-nav"
 import { Footer } from "@/components/footer"
@@ -40,19 +40,22 @@ const use3DEffect = (ref: React.RefObject<HTMLDivElement | null>, intensity: num
 }
 
 export function AboutContent() {
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState<'email' | 'wechat' | null>(null)
   const imageRef = useRef<HTMLDivElement>(null)
   const { onMouseMove, onMouseLeave } = use3DEffect(imageRef, 8)
 
-  const copyEmail = async () => {
+  const copyToClipboard = async (text: string, type: 'email' | 'wechat') => {
     try {
-      await navigator.clipboard.writeText("sxy1308075897@gmail.com")
-      setCopied(true)
-      setTimeout(() => setCopied(false), 2000)
+      await navigator.clipboard.writeText(text)
+      setCopied(type)
+      setTimeout(() => setCopied(null), 2000)
     } catch (err) {
-      console.error("Failed to copy email:", err)
+      console.error(`Failed to copy ${type}:`, err)
     }
   }
+
+  const copyEmail = () => copyToClipboard("sxy1308075897@gmail.com", 'email')
+  const copyWechat = () => copyToClipboard("OOIll0", 'wechat')
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-6">
@@ -135,12 +138,47 @@ export function AboutContent() {
               >
                 <Mail className="h-5 w-5 mr-2" />
                 <span className="text-sm">Email</span>
-                {copied && (
+                {copied === 'email' && (
                   <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-zinc-800 text-white text-xs rounded-md whitespace-nowrap">
                     已复制到剪贴板
                   </div>
                 )}
               </button>
+              <button
+                onClick={copyWechat}
+                className="flex items-center px-4 py-2 rounded-lg 
+                  bg-zinc-100/50 dark:bg-zinc-800/50
+                  hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50
+                  border border-zinc-200/50 dark:border-zinc-700/50
+                  hover:border-zinc-300/50 dark:hover:border-zinc-600/50
+                  text-zinc-600 dark:text-zinc-400
+                  hover:text-zinc-800 dark:hover:text-zinc-200
+                  transition-colors group relative"
+              >
+                <MessageCircle className="h-5 w-5 mr-2" />
+                <span className="text-sm">微信</span>
+                {copied === 'wechat' && (
+                  <div className="absolute -top-8 left-1/2 -translate-x-1/2 px-2 py-1 bg-zinc-800 text-white text-xs rounded-md whitespace-nowrap">
+                    已复制到剪贴板
+                  </div>
+                )}
+              </button>
+              <a
+                href="/rss.xml"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center px-4 py-2 rounded-lg 
+                  bg-zinc-100/50 dark:bg-zinc-800/50
+                  hover:bg-zinc-200/50 dark:hover:bg-zinc-700/50
+                  border border-zinc-200/50 dark:border-zinc-700/50
+                  hover:border-zinc-300/50 dark:hover:border-zinc-600/50
+                  text-zinc-600 dark:text-zinc-400
+                  hover:text-zinc-800 dark:hover:text-zinc-200
+                  transition-colors"
+              >
+                <Rss className="h-5 w-5 mr-2" />
+                RSS
+              </a>
             </div>
           </div>
         </div>
@@ -169,10 +207,32 @@ export function AboutContent() {
               <p>同时也会分享一些关于生活、阅读的想法。</p>
             </div>
           </div>
+
+          <div className="bg-zinc-50/50 dark:bg-zinc-800/50 rounded-xl p-6 
+            hover:bg-zinc-100/50 dark:hover:bg-zinc-800/50 
+            border border-zinc-200/50 dark:border-zinc-700/50
+            hover:border-zinc-300/50 dark:hover:border-zinc-600/50
+            transition-colors">
+            <h2 className="text-xl font-semibold mb-4">开源</h2>
+            <div className="space-y-3 text-zinc-600 dark:text-zinc-400">
+              <p>本博客是开源的，感兴趣的话麻烦点个Star，你可以在 GitHub 查看源码：</p>
+              <a 
+                href="https://github.com/Lily-404/blog"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-zinc-800 dark:text-zinc-200 
+                  hover:text-zinc-600 dark:hover:text-zinc-400 
+                  transition-colors"
+              >
+                <Github className="w-5 h-5" />
+                <span>Lily-404/blog</span>
+              </a>
+            </div>
+          </div>
         </div>
       </main>
 
       <Footer />
     </div>
   )
-} 
+}

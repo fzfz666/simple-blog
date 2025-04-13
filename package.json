@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "next build && tsx scripts/generate-rss.ts",
     "start": "next start",
     "lint": "next lint",
     "postbuild": "tsx scripts/preload.ts"
@@ -47,6 +47,7 @@
     "cmdk": "1.0.4",
     "date-fns": "4.1.0",
     "embla-carousel-react": "8.5.1",
+    "feed": "^4.2.2",
     "framer-motion": "^12.6.3",
     "fs": "latest",
     "gray-matter": "latest",

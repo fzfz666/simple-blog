@@ -10,6 +10,7 @@ import { Tags } from "@/components/tag"
 import { Header } from "@/components/header"
 import { MarkdownContent } from "@/components/markdown-content"
 import { Comments } from "@/components/comments"
+import { ScrollToComments } from "@/components/scroll-to-comments"
 
 // 设置为完全静态生成
 export const dynamic = 'force-static'
@@ -59,9 +60,12 @@ export default async function Post({ params }: { params: { id: string } }) {
             </header>
 
             <MarkdownContent content={post.contentHtml} />
-            <Comments />
+            <div id="comments">
+              <Comments />
+            </div>
           </article>
 
+          <ScrollToComments />
           <Footer />
         </div>
       </Layout>
