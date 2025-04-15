@@ -1,7 +1,9 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { Copy, Check } from "lucide-react"
+import katex from 'katex'
+import 'katex/dist/katex.min.css'
+
 
 interface MarkdownContentProps {
   content: string
@@ -9,6 +11,32 @@ interface MarkdownContentProps {
 
 export function MarkdownContent({ content }: MarkdownContentProps) {
   const [copiedCodeBlocks, setCopiedCodeBlocks] = useState<Record<string, boolean>>({})
+
+  const renderMath = (tex: string, displayMode: boolean): string => {
+    try {
+      return katex.renderToString(tex, {
+        displayMode: displayMode,
+        throwOnError: false
+      })
+    } catch (error) {
+      console.error('KaTeX error:', error)
+      return tex
+    }
+  }
+
+  const processContent = (content: string): string => {
+    // 处理块级公式 $$...$$
+    content = content.replace(/\$\$([\s\S]+?)\$\$/g, (_, tex) => {
+      return `<div class="katex-block">${renderMath(tex.trim(), true)}</div>`
+    })
+
+    // 处理行内公式 $...$
+    content = content.replace(/\$([^\$]+?)\$/g, (_, tex) => {
+      return `<span class="katex-inline">${renderMath(tex.trim(), false)}</span>`
+    })
+
+    return content
+  }
 
   useEffect(() => {
     // 为所有代码块添加复制按钮
@@ -79,7 +107,7 @@ export function MarkdownContent({ content }: MarkdownContentProps) {
   return (
     <div 
       className="prose prose-zinc dark:prose-invert prose-sm max-w-none dark:text-zinc-200"
-      dangerouslySetInnerHTML={{ __html: content }}
+      dangerouslySetInnerHTML={{ __html: processContent(content) }}
     />
   )
-} 
+}

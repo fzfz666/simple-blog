@@ -4,7 +4,7 @@
         <title>Jimmy的博客</title>
         <link>https://jimmy-blog.vercel.app</link>
         <description>Jimmy的个人博客，分享技术、生活和思考。</description>
-        <lastBuildDate>Sun, 13 Apr 2025 05:31:05 GMT</lastBuildDate>
+        <lastBuildDate>Tue, 15 Apr 2025 14:21:46 GMT</lastBuildDate>
         <docs>https://validator.w3.org/feed/docs/rss2.html</docs>
         <generator>Feed for Node.js</generator>
         <language>zh-CN</language>
@@ -14,37 +14,6 @@
             <link>https://jimmy-blog.vercel.app</link>
         </image>
         <copyright>All rights reserved 2025</copyright>
-        <item>
-            <link>https://jimmy-blog.vercel.app/posts/newfuction</link>
-            <guid>https://jimmy-blog.vercel.app/posts/newfuction</guid>
-            <pubDate>Invalid Date</pubDate>
-            <description><![CDATA[哈哈哈RSS测试
-...]]></description>
-            <content:encoded><![CDATA[哈哈哈RSS测试
-]]></content:encoded>
-            <author>jimmy@example.com (Jimmy)</author>
-        </item>
-        <item>
-            <title><![CDATA[燃烧你的秘密——ashes]]></title>
-            <link>https://jimmy-blog.vercel.app/posts/ashes</link>
-            <guid>https://jimmy-blog.vercel.app/posts/ashes</guid>
-            <pubDate>Sun, 11 May 2025 16:00:00 GMT</pubDate>
-            <description><![CDATA[
-我先扔出链接: [ashes](https://secret.ashes.cloud/)
-
-介绍一下之前开发的一款网站：Ashes，功能很简单，只需要把你的秘密输入进去，它会进行燃烧。
-
-没有人会知道你的秘密（本项目并不会存储任何信息）目的是为了让你释放压力，告别那些繁重的事情。
-...]]></description>
-            <content:encoded><![CDATA[
-我先扔出链接: [ashes](https://secret.ashes.cloud/)
-
-介绍一下之前开发的一款网站：Ashes，功能很简单，只需要把你的秘密输入进去，它会进行燃烧。
-
-没有人会知道你的秘密（本项目并不会存储任何信息）目的是为了让你释放压力，告别那些繁重的事情。
-]]></content:encoded>
-            <author>jimmy@example.com (Jimmy)</author>
-        </item>
         <item>
             <title><![CDATA[Vibe Coding 正在重塑开发思维]]></title>
             <link>https://jimmy-blog.vercel.app/posts/vibecoding</link>
@@ -138,6 +107,33 @@ Vibe Coding 代表了编程范式的重大转变，从传统的“手动编写�
    - 留白的重要性
    - 色彩的选择
    - 排版的力量
+]]></content:encoded>
+            <author>jimmy@example.com (Jimmy)</author>
+        </item>
+        <item>
+            <title><![CDATA[燃烧你的秘密 : ashes]]></title>
+            <link>https://jimmy-blog.vercel.app/posts/ashes</link>
+            <guid>https://jimmy-blog.vercel.app/posts/ashes</guid>
+            <pubDate>Fri, 11 Apr 2025 16:00:00 GMT</pubDate>
+            <description><![CDATA[![ashes](../images/1.png)
+
+我先扔出链接: [ashes](https://secret.ashes.cloud/)
+
+介绍一下之前开发的一款网站：ashes，功能很简单，只需要把你的秘密输入进去，它会进行燃烧。
+
+没有人会知道你的秘密（本项目并不会存储任何信息）目的是为了让你释放压力，告别那些繁重的事情。
+
+网站有很多细节，甚至是彩蛋，尽量做的不像一台冰冷机器。
+...]]></description>
+            <content:encoded><![CDATA[![ashes](../images/1.png)
+
+我先扔出链接: [ashes](https://secret.ashes.cloud/)
+
+介绍一下之前开发的一款网站：ashes，功能很简单，只需要把你的秘密输入进去，它会进行燃烧。
+
+没有人会知道你的秘密（本项目并不会存储任何信息）目的是为了让你释放压力，告别那些繁重的事情。
+
+网站有很多细节，甚至是彩蛋，尽量做的不像一台冰冷机器。
 ]]></content:encoded>
             <author>jimmy@example.com (Jimmy)</author>
         </item>
