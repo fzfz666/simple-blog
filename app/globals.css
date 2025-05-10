@@ -155,3 +155,16 @@
   @apply px-6 py-2 text-sm text-gray-600 dark:text-gray-400 text-left;
 }
 
+/* KaTeX 样式调整 */
+.katex-inline {
+  display: inline-block;
+  padding: 0 0.2em;
+}
+
+.katex-block {
+  display: block;
+  margin: 1em 0;
+  padding: 1em;
+  overflow-x: auto;
+}
+
